@@ -8,14 +8,15 @@ recover.corrmat <- function(upper.vec){
 }
 
 pca.pred.row <- function(row,nvec=1){
+    pmid.names = paste0(syms,".pmid")
     row = as.numeric(row)
-    val = row[2:9]
-    means = row[10:17]
-    sds = row[18:25]
+    val = row[c(6,11,16,21,26,31,36,41)]
+    means = row[42:49]
+    sds = row[50:57]
     sds.replace = sds
     sds.replace[sds.replace<=0] = Inf
     syms.standard = (val - means) / sds.replace
-    corrmat = recover.corrmat(row[26:53])
+    corrmat = recover.corrmat(row[58:85])
     eigen.decomp = eigen(corrmat)
     proj = t(eigen.decomp$vectors) %*% syms.standard
     proj[(nvec+1):length(proj)] = 0
@@ -36,11 +37,12 @@ pmid.preds <- function(pmid,nvec=1){
 
 pmids.preds <- function(pmids,nvec=1){
     df.pmids = list()
+    pmid.names = paste0(syms,".pmid")
     pred.name = paste0(syms,".pred")
     sig.name = paste0(syms,".sig")
     for(i in 1:length(pmids)){
         df.pmids[[i]] = pmid.preds(pmids[[i]],nvec)
-        df.pmids[[i]][,sig.name] = df.pmids[[i]][,pred.name] - df.pmids[[i]][,syms]
+        df.pmids[[i]][,sig.name] = df.pmids[[i]][,pred.name] - df.pmids[[i]][,pmid.names]
     }
     return(df.pmids)
 }

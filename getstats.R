@@ -1,3 +1,5 @@
+# Need global variable: syms
+
 library(matrixcalc)
 stats <- function(x,mode,T=NULL){
     x = as.matrix(x)
@@ -56,7 +58,8 @@ cutoff.negative <- function(x){
 
 # Warning: Only for this project.
 pmid.stats <- function(pmid,mode,T=NULL){
-    results = stats(pmid[,syms],mode,T)
+    pmid.names = paste0(syms,".pmid")
+    results = stats(pmid[,pmid.names],mode,T)
     y1 = data.frame(results[[1]])
     rownames(y1) = NULL
     colnames(y1) = paste0(syms,".mean")
