@@ -2,7 +2,7 @@ library(rkdb)
 library(ggplot2)
 library(dplyr)
 library(latex2exp)
-Sys.setlocale("LC_TIME", "English")
+
 
 my_theme = theme_minimal() + 
            theme(plot.title=element_text(hjust=0.5,size=11),
