@@ -20,13 +20,13 @@ get.pmids <- function(dates,syms,tmin=0,tmax=24,dsec=10){
     pmids = list()
     for(i in 1:length(dates)){
         date = dates[i]
-        pmid.sym1 = get.pmid(date,syms[1],dsec=dsec)
-        class(pmid.sym1$time) = "double"
+        pmid.sym1 = get.pmid(date,syms[1],tmin=tmin,tmax=tmax,dsec=dsec)
+        pmid.sym1$time = as.double(pmid.sym1$time)
         colnames(pmid.sym1) = c("time",paste0(syms[1],c(".bid",".ask",".bsiz",".asiz",".pmid")))
         pmid = pmid.sym1
         for(j in 2:length(syms)){
-            pmid.symj = get.pmid(date,syms[j],dsec=dsec)
-            class(pmid.symj$time) = "double"
+            pmid.symj = get.pmid(date,syms[j],tmin=tmin,tmax=tmax,dsec=dsec)
+            pmid.symj$time = as.double(pmid.symj$time)
             colnames(pmid.symj) = c("time",paste0(syms[j],c(".bid",".ask",".bsiz",".asiz",".pmid")))
             pmid = dplyr::inner_join(pmid,pmid.symj,by="time")
         }
